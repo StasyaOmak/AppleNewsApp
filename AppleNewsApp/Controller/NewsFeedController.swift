@@ -58,6 +58,7 @@ extension NewsFeedController{
         let titleLabel = UILabel()
         titleLabel.text = article.title ?? ""
         
+        
         let widthTitleConstr = NSLayoutConstraint(item: titleLabel,
                                                   attribute: NSLayoutConstraint.Attribute.width,
                                                   relatedBy: NSLayoutConstraint.Relation.lessThanOrEqual,
@@ -69,11 +70,12 @@ extension NewsFeedController{
         
         let imageView = UIImageView()
         imageView.sd_setImage(with: URL(string:article.urlToImage ?? ""))
+
         
         let widthImageConstr = NSLayoutConstraint(item: imageView,
                                                   attribute: NSLayoutConstraint.Attribute.width,
                                                   relatedBy: NSLayoutConstraint.Relation.equal,
-                                                  toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 165)
+                                                  toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 170)
         
         let heightImageConstr = NSLayoutConstraint(item: imageView,
                                                    attribute: NSLayoutConstraint.Attribute.height,
@@ -81,6 +83,8 @@ extension NewsFeedController{
                                                    toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150)
         
         imageView.addConstraints([widthImageConstr,heightImageConstr])
+        
+        
         
         let stackView = UIStackView(arrangedSubviews: [imageView,titleLabel])
         stackView.axis = .horizontal
@@ -91,5 +95,11 @@ extension NewsFeedController{
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsItem = newsItems[indexPath.row]
+        let vc = NewsDetailsViewController()
+        vc.configureUI(with: newsItem)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
-
